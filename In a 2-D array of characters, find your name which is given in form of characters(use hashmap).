@@ -1,0 +1,49 @@
+#include <iostream>
+#include <unordered_set>
+#include <vector>
+using namespace std;
+
+// Function to find if the unique characters of the name exist in the 2D grid
+bool findNameInGrid(const vector<vector<char>>& grid, const string& name) {
+    unordered_set<char> nameSet;
+
+    // Fill the unordered set with unique characters of the name
+    for (char ch : name) {
+        nameSet.insert(ch);
+    }
+
+    // Iterate over the grid to remove characters from the set
+    for (const auto& row : grid) {
+        for (char ch : row) {
+            if (nameSet.find(ch) != nameSet.end()) {
+                nameSet.erase(ch);  // Remove character if found in grid
+            }
+        }
+    }
+
+    // If all characters of the name are found, the set should be empty
+    return nameSet.empty();
+}
+
+int main() {
+    // Example of a dynamic grid (it can have any size)
+    vector<vector<char>> grid = {
+        {'a', 'b', 'c', 'd', 'e'},
+        {'f', 'g', 'h', 'i', 'j'},
+        {'k', 'l', 'm', 'n', 'o'},
+        {'p', 'q', 'r', 's', 't'},
+        {'u', 'v', 'w', 'x', 'y'},
+        {'z', 'a', 'b', 'c', 'd'},  // Extra row
+    };
+
+    // Name to find in the grid
+    string name = "123";  // Note: 2 'y's in the name, but only 1 is needed in grid
+
+    if (findNameInGrid(grid, name)) {
+        cout << "Name found in the grid!" << endl;
+    } else {
+        cout << "Name not found in the grid." << endl;
+    }
+
+    return 0;
+}
